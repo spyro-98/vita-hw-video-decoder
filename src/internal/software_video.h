@@ -1,5 +1,5 @@
-#ifndef VITA_HW_DECODER_SOFTWARE_VIDEO_H
-#define VITA_HW_DECODER_SOFTWARE_VIDEO_H
+#ifndef VITA_HW_VIDEO_DECODER_SOFTWARE_VIDEO_H
+#define VITA_HW_VIDEO_DECODER_SOFTWARE_VIDEO_H
 
 #include <stdint.h>
 #include <pthread.h>
@@ -194,4 +194,4 @@ void vita_hw_software_video_debug_snapshot(SoftwareVideoState *st,
  * finished sampling it. */
 void vita_hw_software_video_render_complete(SoftwareVideoState *st);
 
-#endif /* VITA_HW_DECODER_SOFTWARE_VIDEO_H */
+#endif /* VITA_HW_VIDEO_DECODER_SOFTWARE_VIDEO_H */

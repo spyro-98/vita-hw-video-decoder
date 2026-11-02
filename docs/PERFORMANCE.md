@@ -1,4 +1,4 @@
-# vita-hw-decoder: performance and evidence
+# vita-hw-video-decoder: performance and evidence
 
 Source baseline is ABI 2.0.0; app integration 1.4.1. No new runtime algorithm,
 codec, clock default or battery measurement is introduced by this doc refresh.
@@ -22,7 +22,7 @@ copied ring is allocated only when required. Texture dimensions are aligned to
 Fences, AVFrame references and event signaling are part of correctness, not
 optional performance switches. The old frame-threaded CPU zero-copy path is off.
 
-`VITA_HW_DECODER_CPU_THREADS` accepts 1..3 (default 3) for internal CPU code. It
+`VITA_HW_VIDEO_DECODER_CPU_THREADS` accepts 1..3 (default 3) for internal CPU code. It
 does not select three hardware decoder engines; h264_vita stays single-threaded
 at the FFmpeg codec layer. The package does not change system clocks.
 

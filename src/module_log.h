@@ -1,5 +1,5 @@
-#ifndef VITA_HW_DECODER_MODULE_LOG_H
-#define VITA_HW_DECODER_MODULE_LOG_H
+#ifndef VITA_HW_VIDEO_DECODER_MODULE_LOG_H
+#define VITA_HW_VIDEO_DECODER_MODULE_LOG_H
 
 __attribute__((format(printf, 1, 2)))
 void log_printf(const char *format, ...);

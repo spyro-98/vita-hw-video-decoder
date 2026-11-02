@@ -1,4 +1,4 @@
-# vita-hw-decoder: build, validation and release
+# vita-hw-video-decoder: build, validation and release
 
 Current package version **2.0.0**, app integration **VitaMediaDeck 1.4.1**.
 Runtime/API unchanged in this documentation refresh. Pin the resulting Git
@@ -10,8 +10,8 @@ revision in the embedding app; keep `VERSION`, CMake and ABI versions at 2.0.0.
 export VITASDK=/path/to/vitasdk
 ./tools/build-ffmpeg.sh
 cmake -S . -B build/package \
-  -DVITA_HW_DECODER_FFMPEG_ROOT="$PWD/build/deps/ffmpeg-vita-hw" \
-  -DVITA_HW_DECODER_BUILD_EXAMPLE=ON
+  -DVITA_HW_VIDEO_DECODER_FFMPEG_ROOT="$PWD/build/deps/ffmpeg-vita-hw" \
+  -DVITA_HW_VIDEO_DECODER_BUILD_EXAMPLE=ON
 cmake --build build/package -j 4
 cmake --install build/package --prefix "$PWD/build/stage"
 ./tools/release-audit.sh
