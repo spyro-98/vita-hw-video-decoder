@@ -1,4 +1,4 @@
-#include "vita_hw_decoder.h"
+#include "vita_hw_video_decoder.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -7,29 +7,29 @@
 
 typedef struct {
 	SceUID fd;
-} VitaHwDecoderFileHandle;
+} VitaHwVideoDecoderFileHandle;
 
 static int file_read(void *opaque, void *buffer, size_t size) {
-	VitaHwDecoderFileHandle *handle = (VitaHwDecoderFileHandle *)opaque;
+	VitaHwVideoDecoderFileHandle *handle = (VitaHwVideoDecoderFileHandle *)opaque;
 	return handle ? sceIoRead(handle->fd, buffer, size) : -1;
 }
 
 static int64_t file_seek(void *opaque, int64_t offset, int whence) {
-	VitaHwDecoderFileHandle *handle = (VitaHwDecoderFileHandle *)opaque;
+	VitaHwVideoDecoderFileHandle *handle = (VitaHwVideoDecoderFileHandle *)opaque;
 	return handle ? sceIoLseek(handle->fd, offset, whence) : -1;
 }
 
 static void file_close(void *opaque) {
-	VitaHwDecoderFileHandle *handle = (VitaHwDecoderFileHandle *)opaque;
+	VitaHwVideoDecoderFileHandle *handle = (VitaHwVideoDecoderFileHandle *)opaque;
 	if (!handle) return;
 	if (handle->fd >= 0) sceIoClose(handle->fd);
 	free(handle);
 }
 
-static int file_open(void *opaque, VitaHwDecoderStreamHandle *out) {
+static int file_open(void *opaque, VitaHwVideoDecoderStreamHandle *out) {
 	const char *path = (const char *)opaque;
 	if (!path || !out) return -1;
-	VitaHwDecoderFileHandle *handle = calloc(1, sizeof(*handle));
+	VitaHwVideoDecoderFileHandle *handle = calloc(1, sizeof(*handle));
 	if (!handle) return -1;
 	handle->fd = sceIoOpen(path, SCE_O_RDONLY, 0);
 	if (handle->fd < 0) {
@@ -48,8 +48,8 @@ static int file_open(void *opaque, VitaHwDecoderStreamHandle *out) {
 	return 0;
 }
 
-void vita_hw_decoder_file_stream_factory(const char *path,
-	                             VitaHwDecoderStreamFactory *factory) {
+void vita_hw_video_decoder_file_stream_factory(const char *path,
+	                             VitaHwVideoDecoderStreamFactory *factory) {
 	if (!factory) return;
 	memset(factory, 0, sizeof(*factory));
 	factory->opaque = (void *)path;

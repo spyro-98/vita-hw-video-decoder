@@ -10,7 +10,7 @@ if [[ -z "${VITASDK:-}" ]]; then
   exit 1
 fi
 vita_sdk="$VITASDK"
-prefix="${VITA_HW_DECODER_FFMPEG_ROOT:-$repo_root/build/deps/ffmpeg-vita-hw}"
+prefix="${VITA_HW_VIDEO_DECODER_FFMPEG_ROOT:-$repo_root/build/deps/ffmpeg-vita-hw}"
 jobs="${VITAMEDIADECK_FFMPEG_JOBS:-8}"
 
 ffmpeg_commit="ea3d24bbe3c58b171e55fe2151fc7ffaca3ab3d2"
@@ -22,7 +22,7 @@ if [[ ! -x "$vita_sdk/bin/arm-vita-eabi-gcc" ]]; then
   exit 1
 fi
 
-work="$(mktemp -d "${TMPDIR:-/tmp}/vita-hw-decoder-ffmpeg.XXXXXX")"
+work="$(mktemp -d "${TMPDIR:-/tmp}/vita-hw-video-decoder-ffmpeg.XXXXXX")"
 trap 'rm -rf "$work"' EXIT
 
 git clone --quiet https://github.com/FFmpeg/FFmpeg.git "$work/ffmpeg"
@@ -61,12 +61,12 @@ env VITASDK="$vita_sdk" PATH="$vita_sdk/bin:/usr/bin:/bin" ./configure \
   --extra-ldflags="-flto -Wl,--gc-sections -L$vita_sdk/lib" \
   --disable-shared --enable-static \
   --disable-programs --disable-doc --disable-autodetect --disable-network \
-  --disable-avfilter --disable-swscale --disable-swresample --disable-avdevice \
+  --disable-avfilter --disable-swscale --enable-swresample --disable-avdevice \
   --disable-encoders \
-  --disable-decoders --enable-decoder=h264,h264_vita \
+  --disable-decoders --enable-decoder=h264,h264_vita,aac,ac3,mp3float \
   --disable-demuxers --enable-demuxer=mov,matroska,mpegts,aac,h264 \
   --disable-muxers --enable-muxer=mov,mp4,mpegts \
-  --disable-parsers --enable-parser=aac,aac_latm,h264,mpeg4audio \
+  --disable-parsers --enable-parser=aac,aac_latm,h264,mpeg4audio,ac3,mpegaudio \
   --disable-protocols --enable-protocol=file \
   --disable-bsfs --disable-iconv --disable-lzma --disable-sdl2 --disable-xlib \
   --enable-pthreads
@@ -89,7 +89,7 @@ install -m 0644 "$patch_file" \
   "$prefix/share/sources/wiliwili-ffmpeg.patch"
 
 if ! "${tool_prefix}gcc-nm" -g --defined-only "$prefix/lib/libavcodec.a" |
-     grep -q 'ff_h264_vita_hw_decoder'; then
+     grep -q 'ff_h264_vita_decoder'; then
   echo "h264_vita is not registered in libavcodec.a" >&2
   exit 1
 fi

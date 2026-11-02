@@ -1,6 +1,6 @@
-#ifndef VITA_HW_DECODER_LIVE_H
-#define VITA_HW_DECODER_LIVE_H
-#include "vita_hw_decoder.h"
+#ifndef VITA_HW_VIDEO_DECODER_LIVE_H
+#define VITA_HW_VIDEO_DECODER_LIVE_H
+#include "vita_hw_video_decoder.h"
 
 /* Additive, opt-in ABI. Existing config/stream/status layouts and open()
  * behavior are unchanged. V1 accepts forward-only multiplexed MPEG-TS,
@@ -10,16 +10,16 @@
  * starvation must not return zero. abort must wake a blocked read promptly.
  * Discontinuity/eviction requires closing BOTH pipelines and reopening.
  * Seeking and audio track changes return ENOSYS without mutating playback. */
-typedef struct VitaHwDecoderLiveOptions {
+typedef struct VitaHwVideoDecoderLiveOptions {
     uint32_t size;
     uint32_t version; /* 1: original contract; 2: explicit decoded AAC shape */
     union {
         uint32_t reserved[2]; /* V1 must be zero; layout remains 16 bytes. */
         struct { uint32_t sample_rate, channels; } audio; /* V2 only */
     };
-} VitaHwDecoderLiveOptions;
+} VitaHwVideoDecoderLiveOptions;
 
-int vita_hw_decoder_open_live(VitaHwDecoderPlayer *player,
-    const VitaHwDecoderPlayerConfig *config,
-    const VitaHwDecoderLiveOptions *options);
+int vita_hw_video_decoder_open_live(VitaHwVideoDecoderPlayer *player,
+    const VitaHwVideoDecoderPlayerConfig *config,
+    const VitaHwVideoDecoderLiveOptions *options);
 #endif

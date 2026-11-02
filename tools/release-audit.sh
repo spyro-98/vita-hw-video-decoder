@@ -2,7 +2,7 @@
 set -euo pipefail
 repo_root="$(cd "$(dirname "$0")/.." && pwd)"
 : "${VITASDK:?Set VITASDK before auditing}"
-ffmpeg="${VITA_HW_DECODER_FFMPEG_ROOT:-$repo_root/build/deps/ffmpeg-vita-hw}"
+ffmpeg="${VITA_HW_VIDEO_DECODER_FFMPEG_ROOT:-$repo_root/build/deps/ffmpeg-vita-hw}"
 for file in LICENSE THIRD_PARTY_NOTICES.md DEPENDENCIES.lock \
   "$ffmpeg/share/licenses/FFmpeg-LGPL-2.1.txt" \
   "$ffmpeg/share/licenses/wiliwili-GPL-3.0.txt" \
@@ -18,4 +18,4 @@ trap 'rm -f "$nm_output"' EXIT
 grep -q 'ff_h264_vita' "$nm_output" || {
   echo "h264_vita symbol is missing" >&2; exit 1;
 }
-echo "vita-hw-decoder release audit passed"
+echo "vita-hw-video-decoder release audit passed"
